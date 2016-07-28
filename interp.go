@@ -95,10 +95,11 @@ func (s *WhileStmt) Execute() {
 }
 
 func (s *PrintStmt) Execute() {
-	for _, expr := range s.arg_list {
-		fmt.Print(expr.Evaluate())
+	args := make([]interface{}, len(s.arg_list))
+	for i, expr := range s.arg_list {
+		args[i] = expr.Evaluate()
 	}
-	fmt.Println()
+	fmt.Println(args...)
 }
 
 func (id Identifier) Assign(val ValueType) {
