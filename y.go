@@ -11,7 +11,6 @@ type yySymType struct {
 	ident     string
 	lval      Lvalue
 	expr      Expression
-	cond      Condition
 	stmt      Statement
 	argList   []Expression
 	stmtBlock []Statement
@@ -63,7 +62,7 @@ const yyEofCode = 1
 const yyErrCode = 2
 const yyInitialStackSize = 16
 
-//line parse.y:102
+//line parse.y:100
 
 //line yacctab:1
 var yyExca = [...]int{
@@ -509,195 +508,195 @@ yydefault:
 
 	case 1:
 		yyDollar = yyS[yypt-1 : yypt+1]
-		//line parse.y:36
+		//line parse.y:34
 		{
 			yylex.(*Lexer).program = yyDollar[1].stmtBlock
 		}
 	case 2:
 		yyDollar = yyS[yypt-0 : yypt+1]
-		//line parse.y:40
+		//line parse.y:38
 		{
 			yyVAL.stmtBlock = []Statement{}
 		}
 	case 3:
 		yyDollar = yyS[yypt-2 : yypt+1]
-		//line parse.y:41
+		//line parse.y:39
 		{
 			yyVAL.stmtBlock = append(yyDollar[1].stmtBlock, yyDollar[2].stmt)
 		}
 	case 4:
 		yyDollar = yyS[yypt-1 : yypt+1]
-		//line parse.y:45
+		//line parse.y:43
 		{
 			yyVAL.stmt = yyDollar[1].stmt
 		}
 	case 5:
 		yyDollar = yyS[yypt-1 : yypt+1]
-		//line parse.y:46
+		//line parse.y:44
 		{
 			yyVAL.stmt = yyDollar[1].stmt
 		}
 	case 6:
 		yyDollar = yyS[yypt-1 : yypt+1]
-		//line parse.y:47
+		//line parse.y:45
 		{
 			yyVAL.stmt = yyDollar[1].stmt
 		}
 	case 7:
 		yyDollar = yyS[yypt-1 : yypt+1]
-		//line parse.y:48
+		//line parse.y:46
 		{
 			yyVAL.stmt = yyDollar[1].stmt
 		}
 	case 8:
 		yyDollar = yyS[yypt-1 : yypt+1]
-		//line parse.y:49
+		//line parse.y:47
 		{
 			yyVAL.stmt = nil
 		}
 	case 9:
 		yyDollar = yyS[yypt-8 : yypt+1]
-		//line parse.y:52
+		//line parse.y:50
 		{
-			yyVAL.stmt = &IfStmt{yyDollar[2].cond, yyDollar[4].stmtBlock, yyDollar[6].stmtBlock}
+			yyVAL.stmt = &IfStmt{yyDollar[2].expr, yyDollar[4].stmtBlock, yyDollar[6].stmtBlock}
 		}
 	case 10:
 		yyDollar = yyS[yypt-6 : yypt+1]
-		//line parse.y:53
+		//line parse.y:51
 		{
-			yyVAL.stmt = &IfStmt{yyDollar[2].cond, yyDollar[4].stmtBlock, nil}
+			yyVAL.stmt = &IfStmt{yyDollar[2].expr, yyDollar[4].stmtBlock, nil}
 		}
 	case 11:
 		yyDollar = yyS[yypt-6 : yypt+1]
-		//line parse.y:57
+		//line parse.y:55
 		{
-			yyVAL.stmt = &WhileStmt{yyDollar[2].cond, yyDollar[4].stmtBlock}
+			yyVAL.stmt = &WhileStmt{yyDollar[2].expr, yyDollar[4].stmtBlock}
 		}
 	case 12:
 		yyDollar = yyS[yypt-3 : yypt+1]
-		//line parse.y:61
+		//line parse.y:59
 		{
 			yyVAL.stmt = &AssignStmt{yyDollar[1].lval, yyDollar[3].expr}
 		}
 	case 13:
 		yyDollar = yyS[yypt-2 : yypt+1]
-		//line parse.y:65
+		//line parse.y:63
 		{
 			yyVAL.stmt = &PrintStmt{yyDollar[2].argList}
 		}
 	case 14:
 		yyDollar = yyS[yypt-1 : yypt+1]
-		//line parse.y:69
+		//line parse.y:67
 		{
 			yyVAL.argList = []Expression{yyDollar[1].expr}
 		}
 	case 15:
 		yyDollar = yyS[yypt-3 : yypt+1]
-		//line parse.y:70
+		//line parse.y:68
 		{
 			yyVAL.argList = append(yyDollar[1].argList, yyDollar[3].expr)
 		}
 	case 16:
 		yyDollar = yyS[yypt-1 : yypt+1]
-		//line parse.y:74
+		//line parse.y:72
 		{
-			yyVAL.cond = yyDollar[1].cond
+			yyVAL.expr = yyDollar[1].expr
 		}
 	case 17:
 		yyDollar = yyS[yypt-3 : yypt+1]
-		//line parse.y:75
+		//line parse.y:73
 		{
-			yyVAL.cond = &LogicCond{AND, yyDollar[1].cond, yyDollar[3].cond}
+			yyVAL.expr = &LogicExpr{AND, yyDollar[1].expr, yyDollar[3].expr}
 		}
 	case 18:
 		yyDollar = yyS[yypt-3 : yypt+1]
-		//line parse.y:76
+		//line parse.y:74
 		{
-			yyVAL.cond = &LogicCond{OR, yyDollar[1].cond, yyDollar[3].cond}
+			yyVAL.expr = &LogicExpr{OR, yyDollar[1].expr, yyDollar[3].expr}
 		}
 	case 19:
 		yyDollar = yyS[yypt-2 : yypt+1]
-		//line parse.y:77
+		//line parse.y:75
 		{
-			yyVAL.cond = &LogicCond{NOT, yyDollar[2].cond, nil}
+			yyVAL.expr = &LogicExpr{NOT, yyDollar[2].expr, nil}
 		}
 	case 20:
 		yyDollar = yyS[yypt-3 : yypt+1]
-		//line parse.y:80
+		//line parse.y:78
 		{
-			yyVAL.cond = &BinExpr{'=', yyDollar[1].expr, yyDollar[3].expr}
+			yyVAL.expr = &RelExpr{'=', yyDollar[1].expr, yyDollar[3].expr}
 		}
 	case 21:
 		yyDollar = yyS[yypt-3 : yypt+1]
-		//line parse.y:81
+		//line parse.y:79
 		{
-			yyVAL.cond = &BinExpr{'<', yyDollar[1].expr, yyDollar[3].expr}
+			yyVAL.expr = &RelExpr{'<', yyDollar[1].expr, yyDollar[3].expr}
 		}
 	case 22:
 		yyDollar = yyS[yypt-3 : yypt+1]
-		//line parse.y:82
+		//line parse.y:80
 		{
-			yyVAL.cond = &BinExpr{'>', yyDollar[1].expr, yyDollar[3].expr}
+			yyVAL.expr = &RelExpr{'>', yyDollar[1].expr, yyDollar[3].expr}
 		}
 	case 23:
 		yyDollar = yyS[yypt-1 : yypt+1]
-		//line parse.y:86
+		//line parse.y:84
 		{
-			yyVAL.cond = yyDollar[1].cond
+			yyVAL.expr = yyDollar[1].expr
 		}
 	case 24:
 		yyDollar = yyS[yypt-3 : yypt+1]
-		//line parse.y:87
+		//line parse.y:85
 		{
-			yyVAL.cond = yyDollar[2].cond
+			yyVAL.expr = yyDollar[2].expr
 		}
 	case 25:
 		yyDollar = yyS[yypt-1 : yypt+1]
-		//line parse.y:90
+		//line parse.y:88
 		{
 			yyVAL.lval = Identifier(yyDollar[1].ident)
 		}
 	case 26:
 		yyDollar = yyS[yypt-1 : yypt+1]
-		//line parse.y:93
+		//line parse.y:91
 		{
 			yyVAL.expr = yyDollar[1].lval
 		}
 	case 27:
 		yyDollar = yyS[yypt-1 : yypt+1]
-		//line parse.y:94
+		//line parse.y:92
 		{
 			yyVAL.expr = Number(yyDollar[1].numval)
 		}
 	case 28:
 		yyDollar = yyS[yypt-3 : yypt+1]
-		//line parse.y:95
+		//line parse.y:93
 		{
 			yyVAL.expr = yyDollar[2].expr
 		}
 	case 29:
 		yyDollar = yyS[yypt-3 : yypt+1]
-		//line parse.y:96
+		//line parse.y:94
 		{
-			yyVAL.expr = &BinExpr{'+', yyDollar[1].expr, yyDollar[3].expr}
+			yyVAL.expr = &ArithExpr{'+', yyDollar[1].expr, yyDollar[3].expr}
 		}
 	case 30:
 		yyDollar = yyS[yypt-3 : yypt+1]
-		//line parse.y:97
+		//line parse.y:95
 		{
-			yyVAL.expr = &BinExpr{'-', yyDollar[1].expr, yyDollar[3].expr}
+			yyVAL.expr = &ArithExpr{'-', yyDollar[1].expr, yyDollar[3].expr}
 		}
 	case 31:
 		yyDollar = yyS[yypt-3 : yypt+1]
-		//line parse.y:98
+		//line parse.y:96
 		{
-			yyVAL.expr = &BinExpr{'*', yyDollar[1].expr, yyDollar[3].expr}
+			yyVAL.expr = &ArithExpr{'*', yyDollar[1].expr, yyDollar[3].expr}
 		}
 	case 32:
 		yyDollar = yyS[yypt-3 : yypt+1]
-		//line parse.y:99
+		//line parse.y:97
 		{
-			yyVAL.expr = &BinExpr{'/', yyDollar[1].expr, yyDollar[3].expr}
+			yyVAL.expr = &ArithExpr{'/', yyDollar[1].expr, yyDollar[3].expr}
 		}
 	}
 	goto yystack /* stack new state and value */

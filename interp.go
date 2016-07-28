@@ -11,52 +11,81 @@ func (v Number) Evaluate() interface{} {
 	return v
 }
 
-func (e *BinExpr) Evaluate() interface{} {
-	lhs := e.lhs.Evaluate().(Number)
-	rhs := e.rhs.Evaluate().(Number)
-	switch e.op {
-	case '+':
-		return lhs + rhs
-	case '-':
-		return lhs - rhs
-	case '*':
-		return lhs * rhs
-	case '/':
-		return lhs / rhs
-	default:
-		log.Fatalf("BinExpr.Evaluate: unknown numeric operator: %c\n", e.op)
+func (e *ArithExpr) Evaluate() interface{} {
+	lhs := e.lhs.Evaluate()
+	rhs := e.rhs.Evaluate()
+
+	if e.op == '+' {
+		s1, ok1 := lhs.(string)
+		s2, ok2 := rhs.(string)
+		if ok1 && ok2 {
+			return s1 + s2
+		}
 	}
-	return 0
+	{
+		lhs := lhs.(Number)
+		rhs := rhs.(Number)
+		switch e.op {
+		case '+':
+			return lhs + rhs
+		case '-':
+			return lhs - rhs
+		case '*':
+			return lhs * rhs
+		case '/':
+			return lhs / rhs
+		default:
+			panic("unreached")
+		}
+	}
 }
 
-func (e *BinExpr) EvaluateCond() bool {
-	lhs := e.lhs.Evaluate().(Number)
-	rhs := e.rhs.Evaluate().(Number)
-	switch e.op {
-	case '<':
-		return lhs < rhs
-	case '>':
-		return lhs > rhs
-	case '=':
-		return lhs == rhs
-	default:
-		log.Fatalf("BinExpr.EvaluateCond: unknown relation operator: %c\n", e.op)
+func (e *RelExpr) Evaluate() interface{} {
+	lhs := e.lhs.Evaluate()
+	rhs := e.rhs.Evaluate()
+
+	if lhs, ok := lhs.(string); ok {
+		rhs := rhs.(string)
+		switch e.op {
+		case '<':
+			return lhs < rhs
+		case '>':
+			return lhs > rhs
+		case '=':
+			return lhs == rhs
+		default:
+			panic("unreached")
+		}
 	}
-	return false
+	{
+		lhs := lhs.(Number)
+		rhs := rhs.(Number)
+		switch e.op {
+		case '<':
+			return lhs < rhs
+		case '>':
+			return lhs > rhs
+		case '=':
+			return lhs == rhs
+		default:
+			panic("unreached")
+		}
+	}
 }
 
-func (e *LogicCond) EvaluateCond() bool {
+func (e *LogicExpr) Evaluate() interface{} {
+	lhs := e.lhs.Evaluate().(bool)
+
 	switch e.op {
 	case AND:
-		return e.lhs.EvaluateCond() && e.rhs.EvaluateCond()
+		return lhs && e.rhs.Evaluate().(bool)
 	case OR:
-		return e.lhs.EvaluateCond() || e.rhs.EvaluateCond()
+		return lhs || e.rhs.Evaluate().(bool)
 	case NOT:
-		return !e.lhs.EvaluateCond()
+		return !lhs
 	default:
-		log.Fatalf("LogicCond.EvaluateCond: unknown boolean operator: %d\n", e.op)
+		panic("unreached")
 	}
-	return false
 }
 
 func (s *AssignStmt) Execute() {
@@ -64,7 +93,7 @@ func (s *AssignStmt) Execute() {
 }
 
 func (s *IfStmt) Execute() {
-	if s.cond.EvaluateCond() {
+	if s.cond.Evaluate().(bool) {
 		RunStmtBlock(s.trueClause)
 	} else {
 		RunStmtBlock(s.falseClause)
@@ -72,7 +101,7 @@ func (s *IfStmt) Execute() {
 }
 
 func (s *WhileStmt) Execute() {
-	for s.cond.EvaluateCond() {
+	for s.cond.Evaluate().(bool) {
 		RunStmtBlock(s.body)
 	}
 }

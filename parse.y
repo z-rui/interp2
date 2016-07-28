@@ -8,7 +8,6 @@ package main
 	ident      string
 	lval       Lvalue
 	expr       Expression
-	cond       Condition
 	stmt       Statement
 	argList   []Expression
 	stmtBlock []Statement
@@ -25,8 +24,7 @@ package main
 %left '*' '/'
 
 %type <lval> var
-%type <expr> expr
-%type <cond> condition rel_condition sub_condition
+%type <expr> expr condition rel_condition sub_condition
 %type <stmt> statement if_stmt while_stmt assign_stmt print_stmt
 %type <argList> arg_list
 %type <stmtBlock> stmt_block program
@@ -72,14 +70,14 @@ arg_list
 
 condition
 	: rel_condition { $$ = $1 }
-	| sub_condition AND sub_condition { $$ = &LogicCond{AND, $1, $3} }
-	| sub_condition OR sub_condition { $$ = &LogicCond{OR, $1, $3} }
-	| NOT sub_condition { $$ = &LogicCond{NOT, $2, nil} }
+	| sub_condition AND sub_condition { $$ = &LogicExpr{AND, $1, $3} }
+	| sub_condition OR sub_condition { $$ = &LogicExpr{OR, $1, $3} }
+	| NOT sub_condition { $$ = &LogicExpr{NOT, $2, nil} }
 
 rel_condition
-	: expr '=' expr { $$ = &BinExpr{'=', $1, $3} }
-	| expr '<' expr { $$ = &BinExpr{'<', $1, $3} }
-	| expr '>' expr { $$ = &BinExpr{'>', $1, $3} }
+	: expr '=' expr { $$ = &RelExpr{'=', $1, $3} }
+	| expr '<' expr { $$ = &RelExpr{'<', $1, $3} }
+	| expr '>' expr { $$ = &RelExpr{'>', $1, $3} }
 	;
 
 sub_condition
@@ -93,10 +91,10 @@ var	: IDENTIFIER { $$ = Identifier($1) }
 expr	: var { $$ = $1 }
 	| NUMBER { $$ = Number($1) }
 	| '(' expr ')' { $$ = $2 }
-	| expr '+' expr { $$ = &BinExpr{'+', $1, $3} }
-	| expr '-' expr { $$ = &BinExpr{'-', $1, $3} }
-	| expr '*' expr { $$ = &BinExpr{'*', $1, $3} }
-	| expr '/' expr { $$ = &BinExpr{'/', $1, $3} }
+	| expr '+' expr { $$ = &ArithExpr{'+', $1, $3} }
+	| expr '-' expr { $$ = &ArithExpr{'-', $1, $3} }
+	| expr '*' expr { $$ = &ArithExpr{'*', $1, $3} }
+	| expr '/' expr { $$ = &ArithExpr{'/', $1, $3} }
 	;
 
 %%

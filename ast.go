@@ -11,10 +11,6 @@ type Expression interface {
 	Evaluate() interface{}
 }
 
-type Condition interface {
-	EvaluateCond() bool
-}
-
 type Lvalue interface {
 	Evaluate() interface{}
 	Assign(v interface{})
@@ -25,10 +21,9 @@ type BinExpr struct {
 	lhs, rhs Expression
 }
 
-type LogicCond struct {
-	op       int
-	lhs, rhs Condition
-}
+type LogicExpr BinExpr
+type ArithExpr BinExpr
+type RelExpr BinExpr
 
 type AssignStmt struct {
 	lval Lvalue
@@ -40,11 +35,11 @@ type PrintStmt struct {
 }
 
 type WhileStmt struct {
-	cond Condition
+	cond Expression
 	body []Statement
 }
 
 type IfStmt struct {
-	cond                    Condition
+	cond                    Expression
 	trueClause, falseClause []Statement
 }
