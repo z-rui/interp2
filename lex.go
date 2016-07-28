@@ -42,8 +42,8 @@ func (l *Lexer) Lex(lval *yySymType) int {
 		return NUMBER
 	case scanner.Ident:
 		ident := l.s.TokenText()
-		keyword, is_keyword := lexKeywords[ident]
-		if is_keyword {
+		keyword, isKeyword := lexKeywords[ident]
+		if isKeyword {
 			return keyword
 		}
 		lval.ident = ident

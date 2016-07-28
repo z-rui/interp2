@@ -10,8 +10,8 @@ package main
 	expr       Expression
 	cond       Condition
 	stmt       Statement
-	arg_list   []Expression
-	stmt_block []Statement
+	argList   []Expression
+	stmtBlock []Statement
 }
 
 %start program
@@ -28,8 +28,8 @@ package main
 %type <expr> expr
 %type <cond> condition rel_condition sub_condition
 %type <stmt> statement if_stmt while_stmt assign_stmt print_stmt
-%type <arg_list> arg_list
-%type <stmt_block> stmt_block program
+%type <argList> arg_list
+%type <stmtBlock> stmt_block program
 
 %%
 

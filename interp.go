@@ -82,9 +82,9 @@ func (s *AssignStmt) Execute() {
 
 func (s *IfStmt) Execute() {
 	if s.cond.EvaluateCond() {
-		RunStmtBlock(s.true_clause)
+		RunStmtBlock(s.trueClause)
 	} else {
-		RunStmtBlock(s.false_clause)
+		RunStmtBlock(s.falseClause)
 	}
 }
 
@@ -95,8 +95,8 @@ func (s *WhileStmt) Execute() {
 }
 
 func (s *PrintStmt) Execute() {
-	args := make([]interface{}, len(s.arg_list))
-	for i, expr := range s.arg_list {
+	args := make([]interface{}, len(s.argList))
+	for i, expr := range s.argList {
 		args[i] = expr.Evaluate()
 	}
 	fmt.Println(args...)

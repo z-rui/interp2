@@ -19,7 +19,7 @@ type AssignStmt struct {
 }
 
 type PrintStmt struct {
-	arg_list []Expression
+	argList []Expression
 }
 
 type WhileStmt struct {
@@ -28,6 +28,6 @@ type WhileStmt struct {
 }
 
 type IfStmt struct {
-	cond                      Condition
-	true_clause, false_clause []Statement
+	cond                    Condition
+	trueClause, falseClause []Statement
 }

@@ -6,15 +6,15 @@ import __yyfmt__ "fmt"
 //line parse.y:2
 //line parse.y:6
 type yySymType struct {
-	yys        int
-	numval     float64
-	ident      string
-	lval       Lvalue
-	expr       Expression
-	cond       Condition
-	stmt       Statement
-	arg_list   []Expression
-	stmt_block []Statement
+	yys       int
+	numval    float64
+	ident     string
+	lval      Lvalue
+	expr      Expression
+	cond      Condition
+	stmt      Statement
+	argList   []Expression
+	stmtBlock []Statement
 }
 
 const IF = 57346
@@ -511,19 +511,19 @@ yydefault:
 		yyDollar = yyS[yypt-1 : yypt+1]
 		//line parse.y:36
 		{
-			yylex.(*Lexer).program = yyDollar[1].stmt_block
+			yylex.(*Lexer).program = yyDollar[1].stmtBlock
 		}
 	case 2:
 		yyDollar = yyS[yypt-0 : yypt+1]
 		//line parse.y:40
 		{
-			yyVAL.stmt_block = []Statement{}
+			yyVAL.stmtBlock = []Statement{}
 		}
 	case 3:
 		yyDollar = yyS[yypt-2 : yypt+1]
 		//line parse.y:41
 		{
-			yyVAL.stmt_block = append(yyDollar[1].stmt_block, yyDollar[2].stmt)
+			yyVAL.stmtBlock = append(yyDollar[1].stmtBlock, yyDollar[2].stmt)
 		}
 	case 4:
 		yyDollar = yyS[yypt-1 : yypt+1]
@@ -559,19 +559,19 @@ yydefault:
 		yyDollar = yyS[yypt-8 : yypt+1]
 		//line parse.y:52
 		{
-			yyVAL.stmt = &IfStmt{yyDollar[2].cond, yyDollar[4].stmt_block, yyDollar[6].stmt_block}
+			yyVAL.stmt = &IfStmt{yyDollar[2].cond, yyDollar[4].stmtBlock, yyDollar[6].stmtBlock}
 		}
 	case 10:
 		yyDollar = yyS[yypt-6 : yypt+1]
 		//line parse.y:53
 		{
-			yyVAL.stmt = &IfStmt{yyDollar[2].cond, yyDollar[4].stmt_block, nil}
+			yyVAL.stmt = &IfStmt{yyDollar[2].cond, yyDollar[4].stmtBlock, nil}
 		}
 	case 11:
 		yyDollar = yyS[yypt-6 : yypt+1]
 		//line parse.y:57
 		{
-			yyVAL.stmt = &WhileStmt{yyDollar[2].cond, yyDollar[4].stmt_block}
+			yyVAL.stmt = &WhileStmt{yyDollar[2].cond, yyDollar[4].stmtBlock}
 		}
 	case 12:
 		yyDollar = yyS[yypt-3 : yypt+1]
@@ -583,19 +583,19 @@ yydefault:
 		yyDollar = yyS[yypt-2 : yypt+1]
 		//line parse.y:65
 		{
-			yyVAL.stmt = &PrintStmt{yyDollar[2].arg_list}
+			yyVAL.stmt = &PrintStmt{yyDollar[2].argList}
 		}
 	case 14:
 		yyDollar = yyS[yypt-1 : yypt+1]
 		//line parse.y:69
 		{
-			yyVAL.arg_list = []Expression{yyDollar[1].expr}
+			yyVAL.argList = []Expression{yyDollar[1].expr}
 		}
 	case 15:
 		yyDollar = yyS[yypt-3 : yypt+1]
 		//line parse.y:70
 		{
-			yyVAL.arg_list = append(yyDollar[1].arg_list, yyDollar[3].expr)
+			yyVAL.argList = append(yyDollar[1].argList, yyDollar[3].expr)
 		}
 	case 16:
 		yyDollar = yyS[yypt-1 : yypt+1]
