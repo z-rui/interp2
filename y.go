@@ -7,8 +7,8 @@ import __yyfmt__ "fmt"
 //line parse.y:6
 type yySymType struct {
 	yys       int
-	numval    float64
-	ident     string
+	num       float64
+	str       string
 	lval      Lvalue
 	expr      Expression
 	stmt      Statement
@@ -28,6 +28,7 @@ const OR = 57354
 const NOT = 57355
 const NUMBER = 57356
 const IDENTIFIER = 57357
+const STRING = 57358
 
 var yyToknames = [...]string{
 	"$end",
@@ -45,6 +46,7 @@ var yyToknames = [...]string{
 	"NOT",
 	"NUMBER",
 	"IDENTIFIER",
+	"STRING",
 	"'+'",
 	"'-'",
 	"'*'",
@@ -62,7 +64,7 @@ const yyEofCode = 1
 const yyErrCode = 2
 const yyInitialStackSize = 16
 
-//line parse.y:100
+//line parse.y:101
 
 //line yacctab:1
 var yyExca = [...]int{
@@ -78,77 +80,77 @@ var yyExca = [...]int{
 	-2, 16,
 }
 
-const yyNprod = 33
+const yyNprod = 34
 const yyPrivate = 57344
 
 var yyTokenNames []string
 var yyStates []string
 
-const yyLast = 112
+const yyLast = 119
 
 var yyAct = [...]int{
 
-	20, 2, 16, 11, 35, 36, 37, 38, 32, 55,
-	33, 34, 43, 56, 23, 18, 35, 36, 37, 38,
-	30, 41, 17, 21, 13, 56, 15, 64, 25, 45,
-	27, 46, 47, 19, 66, 40, 63, 21, 13, 42,
-	37, 38, 44, 57, 31, 24, 11, 26, 48, 49,
-	50, 51, 52, 53, 54, 31, 31, 7, 11, 58,
-	6, 62, 5, 11, 35, 36, 37, 38, 32, 14,
-	33, 34, 21, 13, 4, 35, 36, 37, 38, 8,
-	22, 9, 19, 59, 60, 10, 3, 12, 8, 39,
-	9, 1, 13, 65, 10, 0, 12, 8, 8, 9,
-	9, 13, 61, 10, 10, 12, 12, 0, 28, 29,
-	13, 13,
+	20, 2, 16, 11, 36, 37, 38, 39, 33, 56,
+	34, 35, 44, 57, 24, 18, 36, 37, 38, 39,
+	31, 36, 37, 38, 39, 57, 42, 15, 26, 65,
+	46, 28, 47, 48, 67, 41, 17, 21, 13, 22,
+	43, 38, 39, 45, 58, 32, 64, 11, 19, 49,
+	50, 51, 52, 53, 54, 55, 25, 32, 32, 11,
+	59, 7, 63, 6, 11, 36, 37, 38, 39, 33,
+	5, 34, 35, 21, 13, 22, 21, 13, 22, 29,
+	30, 4, 14, 3, 27, 1, 8, 19, 9, 0,
+	60, 61, 10, 23, 12, 8, 0, 9, 0, 13,
+	66, 10, 40, 12, 8, 8, 9, 9, 13, 62,
+	10, 10, 12, 12, 0, 0, 0, 13, 13,
 }
 var yyPact = [...]int{
 
-	-1000, -1000, 96, -1000, -1000, -1000, -1000, -1000, -1000, 9,
-	9, -6, 23, -1000, 25, -1000, 97, 58, 48, 9,
-	-1000, -1000, 12, 23, -9, 59, 23, -1000, 58, 58,
-	-1000, -1000, 23, 23, 23, 23, 23, 23, 23, -16,
-	-12, -1000, 59, 23, 0, 77, -1000, -1000, 59, 59,
-	59, 22, 22, -1000, -1000, -1000, -1000, 95, 59, -1000,
-	32, 19, 86, -1000, -1000, 30, -1000,
+	-1000, -1000, 103, -1000, -1000, -1000, -1000, -1000, -1000, 23,
+	23, -7, 59, -1000, 26, -1000, 68, 62, 48, 23,
+	-1000, -1000, -1000, 17, 59, -10, 4, 59, -1000, 62,
+	62, -1000, -1000, 59, 59, 59, 59, 59, 59, 59,
+	-17, -13, -1000, 4, 59, -1, 84, -1000, -1000, 4,
+	4, 4, 22, 22, -1000, -1000, -1000, -1000, 102, 4,
+	-1000, 42, 21, 93, -1000, -1000, 30, -1000,
 }
 var yyPgo = [...]int{
 
-	0, 91, 0, 15, 69, 26, 2, 86, 74, 62,
-	60, 57, 45, 1,
+	0, 85, 0, 15, 82, 27, 2, 83, 81, 70,
+	63, 61, 56, 1,
 }
 var yyR1 = [...]int{
 
 	0, 1, 13, 13, 7, 7, 7, 7, 7, 8,
 	8, 9, 10, 11, 12, 12, 4, 4, 4, 4,
 	5, 5, 5, 6, 6, 2, 3, 3, 3, 3,
-	3, 3, 3,
+	3, 3, 3, 3,
 }
 var yyR2 = [...]int{
 
 	0, 1, 0, 2, 1, 1, 1, 1, 1, 8,
 	6, 6, 3, 2, 1, 3, 1, 3, 3, 2,
-	3, 3, 3, 1, 3, 1, 1, 1, 3, 3,
-	3, 3, 3,
+	3, 3, 3, 1, 3, 1, 1, 1, 1, 3,
+	3, 3, 3, 3,
 }
 var yyChk = [...]int{
 
 	-1000, -1, -13, -7, -8, -9, -10, -11, 2, 4,
-	8, -2, 10, 15, -4, -5, -6, 13, -3, 24,
-	-2, 14, -4, 20, -12, -3, 24, 5, 11, 12,
-	-6, -5, 20, 22, 23, 16, 17, 18, 19, -4,
-	-3, 9, -3, 21, -3, -13, -6, -6, -3, -3,
-	-3, -3, -3, -3, -3, 25, 25, -13, -3, 6,
-	7, 7, -13, 4, 8, 7, 4,
+	8, -2, 10, 15, -4, -5, -6, 13, -3, 25,
+	-2, 14, 16, -4, 21, -12, -3, 25, 5, 11,
+	12, -6, -5, 21, 23, 24, 17, 18, 19, 20,
+	-4, -3, 9, -3, 22, -3, -13, -6, -6, -3,
+	-3, -3, -3, -3, -3, -3, 26, 26, -13, -3,
+	6, 7, 7, -13, 4, 8, 7, 4,
 }
 var yyDef = [...]int{
 
 	2, -2, -2, 3, 4, 5, 6, 7, 8, 0,
 	0, 0, 0, 25, 0, -2, 0, 0, 0, 0,
-	26, 27, 0, 0, 13, 14, 0, 2, 0, 0,
-	19, 23, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 2, 12, 0, 0, 0, 17, 18, 20, 21,
-	22, 29, 30, 31, 32, 24, 28, 0, 15, 2,
-	0, 0, 0, 10, 11, 0, 9,
+	26, 27, 28, 0, 0, 13, 14, 0, 2, 0,
+	0, 19, 23, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 2, 12, 0, 0, 0, 17, 18, 20,
+	21, 22, 30, 31, 32, 33, 24, 29, 0, 15,
+	2, 0, 0, 0, 10, 11, 0, 9,
 }
 var yyTok1 = [...]int{
 
@@ -156,14 +158,14 @@ var yyTok1 = [...]int{
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
-	24, 25, 18, 16, 21, 17, 3, 19, 3, 3,
+	25, 26, 19, 17, 22, 18, 3, 20, 3, 3,
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
-	22, 20, 23,
+	23, 21, 24,
 }
 var yyTok2 = [...]int{
 
 	2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
-	12, 13, 14, 15,
+	12, 13, 14, 15, 16,
 }
 var yyTok3 = [...]int{
 	0,
@@ -654,7 +656,7 @@ yydefault:
 		yyDollar = yyS[yypt-1 : yypt+1]
 		//line parse.y:88
 		{
-			yyVAL.lval = Identifier(yyDollar[1].ident)
+			yyVAL.lval = Identifier(yyDollar[1].str)
 		}
 	case 26:
 		yyDollar = yyS[yypt-1 : yypt+1]
@@ -666,35 +668,41 @@ yydefault:
 		yyDollar = yyS[yypt-1 : yypt+1]
 		//line parse.y:92
 		{
-			yyVAL.expr = Number(yyDollar[1].numval)
+			yyVAL.expr = Number(yyDollar[1].num)
 		}
 	case 28:
-		yyDollar = yyS[yypt-3 : yypt+1]
+		yyDollar = yyS[yypt-1 : yypt+1]
 		//line parse.y:93
 		{
-			yyVAL.expr = yyDollar[2].expr
+			yyVAL.expr = String(yyDollar[1].str)
 		}
 	case 29:
 		yyDollar = yyS[yypt-3 : yypt+1]
 		//line parse.y:94
 		{
-			yyVAL.expr = &ArithExpr{'+', yyDollar[1].expr, yyDollar[3].expr}
+			yyVAL.expr = yyDollar[2].expr
 		}
 	case 30:
 		yyDollar = yyS[yypt-3 : yypt+1]
 		//line parse.y:95
 		{
-			yyVAL.expr = &ArithExpr{'-', yyDollar[1].expr, yyDollar[3].expr}
+			yyVAL.expr = &ArithExpr{'+', yyDollar[1].expr, yyDollar[3].expr}
 		}
 	case 31:
 		yyDollar = yyS[yypt-3 : yypt+1]
 		//line parse.y:96
 		{
-			yyVAL.expr = &ArithExpr{'*', yyDollar[1].expr, yyDollar[3].expr}
+			yyVAL.expr = &ArithExpr{'-', yyDollar[1].expr, yyDollar[3].expr}
 		}
 	case 32:
 		yyDollar = yyS[yypt-3 : yypt+1]
 		//line parse.y:97
+		{
+			yyVAL.expr = &ArithExpr{'*', yyDollar[1].expr, yyDollar[3].expr}
+		}
+	case 33:
+		yyDollar = yyS[yypt-3 : yypt+1]
+		//line parse.y:98
 		{
 			yyVAL.expr = &ArithExpr{'/', yyDollar[1].expr, yyDollar[3].expr}
 		}

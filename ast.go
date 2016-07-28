@@ -1,6 +1,7 @@
 package main
 
 type Number float64
+type String string
 type Identifier string
 
 type Statement interface {

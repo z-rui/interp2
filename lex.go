@@ -15,7 +15,7 @@ type Lexer struct {
 func NewLexer(r io.Reader) *Lexer {
 	l := new(Lexer)
 	l.s.Init(r)
-	l.s.Mode = scanner.ScanIdents | scanner.ScanInts | scanner.ScanFloats | scanner.SkipComments
+	l.s.Mode = scanner.ScanIdents | scanner.ScanInts | scanner.ScanFloats | scanner.ScanStrings | scanner.SkipComments
 	return l
 }
 
@@ -38,7 +38,7 @@ func (l *Lexer) Lex(lval *yySymType) int {
 	case scanner.EOF:
 		return 0
 	case scanner.Int, scanner.Float:
-		lval.numval, _ = strconv.ParseFloat(l.s.TokenText(), 64)
+		lval.num, _ = strconv.ParseFloat(l.s.TokenText(), 64)
 		return NUMBER
 	case scanner.Ident:
 		ident := l.s.TokenText()
@@ -46,8 +46,13 @@ func (l *Lexer) Lex(lval *yySymType) int {
 		if isKeyword {
 			return keyword
 		}
-		lval.ident = ident
+		lval.str = ident
 		return IDENTIFIER
+	case scanner.String:
+		text := l.s.TokenText()
+		text = text[1 : len(text)-1]
+		lval.str = text
+		return STRING
 	default:
 		return int(tok)
 	}

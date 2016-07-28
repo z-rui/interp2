@@ -11,13 +11,17 @@ func (v Number) Evaluate() interface{} {
 	return v
 }
 
+func (s String) Evaluate() interface{} {
+	return s
+}
+
 func (e *ArithExpr) Evaluate() interface{} {
 	lhs := e.lhs.Evaluate()
 	rhs := e.rhs.Evaluate()
 
 	if e.op == '+' {
-		s1, ok1 := lhs.(string)
-		s2, ok2 := rhs.(string)
+		s1, ok1 := lhs.(String)
+		s2, ok2 := rhs.(String)
 		if ok1 && ok2 {
 			return s1 + s2
 		}
@@ -44,8 +48,8 @@ func (e *RelExpr) Evaluate() interface{} {
 	lhs := e.lhs.Evaluate()
 	rhs := e.rhs.Evaluate()
 
-	if lhs, ok := lhs.(string); ok {
-		rhs := rhs.(string)
+	if lhs, ok := lhs.(String); ok {
+		rhs := rhs.(String)
 		switch e.op {
 		case '<':
 			return lhs < rhs
@@ -111,7 +115,8 @@ func (s *PrintStmt) Execute() {
 	for i, expr := range s.argList {
 		args[i] = expr.Evaluate()
 	}
-	fmt.Println(args...)
+	fmt.Print(args...)
+	fmt.Println()
 }
 
 func (id Identifier) Assign(val interface{}) {

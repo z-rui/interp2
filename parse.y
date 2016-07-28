@@ -4,8 +4,8 @@ package main
 %}
 
 %union{
-	numval     float64
-	ident      string
+	num        float64
+	str        string
 	lval       Lvalue
 	expr       Expression
 	stmt       Statement
@@ -17,8 +17,8 @@ package main
 
 %token IF THEN ELSE END WHILE DO PRINT AND OR NOT
 
-%token <numval> NUMBER
-%token <ident> IDENTIFIER
+%token <num> NUMBER
+%token <str> IDENTIFIER STRING
 
 %left '+' '-'
 %left '*' '/'
@@ -90,6 +90,7 @@ var	: IDENTIFIER { $$ = Identifier($1) }
 
 expr	: var { $$ = $1 }
 	| NUMBER { $$ = Number($1) }
+	| STRING { $$ = String($1) }
 	| '(' expr ')' { $$ = $2 }
 	| expr '+' expr { $$ = &ArithExpr{'+', $1, $3} }
 	| expr '-' expr { $$ = &ArithExpr{'-', $1, $3} }
