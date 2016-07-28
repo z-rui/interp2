@@ -5,14 +5,14 @@ import (
 	"log"
 )
 
-var symTab = map[Identifier]ValueType{}
+var symTab = map[Identifier]interface{}{}
 
 type Statement interface {
 	Execute()
 }
 
 type Expression interface {
-	Evaluate() ValueType
+	Evaluate() interface{}
 }
 
 type Condition interface {
@@ -20,17 +20,17 @@ type Condition interface {
 }
 
 type Lvalue interface {
-	Evaluate() ValueType
-	Assign(v ValueType)
+	Evaluate() interface{}
+	Assign(v interface{})
 }
 
-func (v ValueType) Evaluate() ValueType {
+func (v Number) Evaluate() interface{} {
 	return v
 }
 
-func (e *BinExpr) Evaluate() ValueType {
-	lhs := e.lhs.Evaluate()
-	rhs := e.rhs.Evaluate()
+func (e *BinExpr) Evaluate() interface{} {
+	lhs := e.lhs.Evaluate().(Number)
+	rhs := e.rhs.Evaluate().(Number)
 	switch e.op {
 	case '+':
 		return lhs + rhs
@@ -47,8 +47,8 @@ func (e *BinExpr) Evaluate() ValueType {
 }
 
 func (e *BinExpr) EvaluateCond() bool {
-	lhs := e.lhs.Evaluate()
-	rhs := e.rhs.Evaluate()
+	lhs := e.lhs.Evaluate().(Number)
+	rhs := e.rhs.Evaluate().(Number)
 	switch e.op {
 	case '<':
 		return lhs < rhs
@@ -102,11 +102,11 @@ func (s *PrintStmt) Execute() {
 	fmt.Println(args...)
 }
 
-func (id Identifier) Assign(val ValueType) {
+func (id Identifier) Assign(val interface{}) {
 	symTab[id] = val
 }
 
-func (id Identifier) Evaluate() ValueType {
+func (id Identifier) Evaluate() interface{} {
 	val, ok := symTab[id]
 	if !ok {
 		log.Println("Identifier.Evaluate: symbol", id, "undefined")

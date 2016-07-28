@@ -667,7 +667,7 @@ yydefault:
 		yyDollar = yyS[yypt-1 : yypt+1]
 		//line parse.y:94
 		{
-			yyVAL.expr = ValueType(yyDollar[1].numval)
+			yyVAL.expr = Number(yyDollar[1].numval)
 		}
 	case 28:
 		yyDollar = yyS[yypt-3 : yypt+1]

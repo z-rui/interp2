@@ -91,7 +91,7 @@ var	: IDENTIFIER { $$ = Identifier($1) }
 	;
 
 expr	: var { $$ = $1 }
-	| NUMBER { $$ = ValueType($1) }
+	| NUMBER { $$ = Number($1) }
 	| '(' expr ')' { $$ = $2 }
 	| expr '+' expr { $$ = &BinExpr{'+', $1, $3} }
 	| expr '-' expr { $$ = &BinExpr{'-', $1, $3} }

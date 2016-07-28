@@ -1,6 +1,6 @@
 package main
 
-type ValueType float64
+type Number float64
 type Identifier string
 
 type BinExpr struct {
