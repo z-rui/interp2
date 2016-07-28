@@ -10,6 +10,9 @@ func main() {
 	yyErrorVerbose = true
 	lexer := NewLexer(os.Stdin)
 	yyParse(lexer)
-	ast := lexer.program
-	RunStmtBlock(ast)
+	prog := lexer.Program()
+	if prog == nil {
+		os.Exit(1)
+	}
+	RunStmtBlock(prog)
 }

@@ -8,8 +8,9 @@ import (
 )
 
 type Lexer struct {
-	s       scanner.Scanner
-	program []Statement
+	s         scanner.Scanner
+	program   []Statement
+	hasErrors bool
 }
 
 func NewLexer(r io.Reader) *Lexer {
@@ -60,4 +61,12 @@ func (l *Lexer) Lex(lval *yySymType) int {
 
 func (l *Lexer) Error(s string) {
 	log.Println("Parser:", s)
+	l.hasErrors = true
+}
+
+func (l *Lexer) Program() []Statement {
+	if l.hasErrors {
+		return nil
+	}
+	return l.program
 }
