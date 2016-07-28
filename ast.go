@@ -3,6 +3,23 @@ package main
 type Number float64
 type Identifier string
 
+type Statement interface {
+	Execute()
+}
+
+type Expression interface {
+	Evaluate() interface{}
+}
+
+type Condition interface {
+	EvaluateCond() bool
+}
+
+type Lvalue interface {
+	Evaluate() interface{}
+	Assign(v interface{})
+}
+
 type BinExpr struct {
 	op       int
 	lhs, rhs Expression

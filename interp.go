@@ -7,23 +7,6 @@ import (
 
 var symTab = map[Identifier]interface{}{}
 
-type Statement interface {
-	Execute()
-}
-
-type Expression interface {
-	Evaluate() interface{}
-}
-
-type Condition interface {
-	EvaluateCond() bool
-}
-
-type Lvalue interface {
-	Evaluate() interface{}
-	Assign(v interface{})
-}
-
 func (v Number) Evaluate() interface{} {
 	return v
 }
